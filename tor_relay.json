@@ -1,0 +1,72 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2023-05-20T14:24:53+02:00",
+    "name": "Tor Exit Node",
+    "author": "no-reply@siroh.ai",
+    "description": "Tor exit node running in a Docker container.",
+    "features": [],
+    "docker_images": {
+        "Tor Latest": "ghcr.io\/oohiyorioo\/tor-relay:latest"
+    },
+    "file_denylist": [],
+    "startup": "[ ! -e .\/torrc ] && echo \"DataDirectory \/home\/container\" > .\/torrc; exec \/usr\/bin\/tor -f .\/torrc --SocksPort {{SOCKS_PORT}} --ControlPort {{CONTROL_PORT}} --ORPort {{OR_PORT}} --DirPort {{DIR_PORT}}",
+    "config": {
+        "files": "{\r\n    \"\/home\/container\/torrc\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"DataDirectory \/home\/container\": \"\/home\/container\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \"Bootstrapped 100% (done): Done\",\r\n    \"userInteraction\": []\r\n}",
+        "logs": "{\r\n    \"custom\": false,\r\n    \"location\": \"logs\"\r\n}",
+        "stop": "^^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/sh",
+            "container": "alpine:latest",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "SOCKS Port",
+            "description": "The port for the Tor SOCKS proxy.",
+            "env_variable": "SOCKS_PORT",
+            "default_value": "9050",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric|between:1024,49151",
+            "field_type": "text"
+        },
+        {
+            "name": "Control Port",
+            "description": "The port for the Tor control port.",
+            "env_variable": "CONTROL_PORT",
+            "default_value": "9051",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric|between:1024,49151",
+            "field_type": "text"
+        },
+        {
+            "name": "ORPort",
+            "description": "ORPort",
+            "env_variable": "OR_PORT",
+            "default_value": "9001",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric|between:1024,49151",
+            "field_type": "text"
+        },
+        {
+            "name": "DirPort",
+            "description": "DirPort",
+            "env_variable": "DIR_PORT",
+            "default_value": "9030",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric|between:1024,49151",
+            "field_type": "text"
+        }
+    ]
+}
